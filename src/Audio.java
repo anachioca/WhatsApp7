@@ -1,14 +1,13 @@
 public class Audio extends Message{
-    private float duration;
 
-
-    public Audio(String content, User sender, Chat receiver){
-        super(content, sender, receiver);
+    public Audio(User sender, Chat receiver){
+        super(sender, receiver);
     }
 
-    @Override
-    public String getContent(){
-        return "IMAGEM";
+    public String getMessage() {
+        String message = this.getTimestamp().toString() + " - " + this.getFromUser().name + ": ";
+        message = message + "PLAY AUDIO";
+        return message;
     }
 
 }

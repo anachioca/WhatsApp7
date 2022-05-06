@@ -3,9 +3,9 @@ import java.util.Collections;
 import java.util.Comparator;
 
 abstract class Chat {
-    public static int count;
-    protected ArrayList<User> members = new ArrayList<User>();
-    protected ArrayList<Message> messages = new ArrayList<Message>();
+    private static int count;
+    protected ArrayList<User> members = new ArrayList<>();
+    protected ArrayList<Message> messages = new ArrayList<>();
     public int id;
 
     public Chat(ArrayList<User> newMembers){
@@ -18,8 +18,13 @@ abstract class Chat {
         this.messages.add(newMessage);
     }
 
-    public abstract void showMessages();
-    public abstract void showMembers();
+    public ArrayList<Message> getMessages() {
+        return messages;
+    }
+
+    public ArrayList<User> getMembers() {
+        return members;
+    }
 
     public boolean isMember(User user){
         for (int i = 0; i < members.size(); i++){
@@ -36,4 +41,11 @@ abstract class Chat {
         });
         return members;
     }
+
+    public void memberCount(){
+        System.out.println("\nThere are " + members.size() + " members in this chat.");
+    }
+
+    public abstract void showMessages();
+    public abstract void showMembers();
 }

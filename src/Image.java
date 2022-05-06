@@ -2,13 +2,14 @@ public class Image extends Message{
     private int size = 2;
 
 
-    public Image(String content, User sender, Chat receiver){
-        super(content, sender, receiver);
+    public Image(User sender, Chat receiver){
+        super(sender, receiver);
     }
 
-    @Override
-    public String getContent(){
-        return "IMAGEM";
+    public String getMessage() {
+        String message = this.getTimestamp().toString() + " - " + this.getFromUser().name + ": ";
+        message = message + "IMAGEM";
+        return message;
     }
 
 }

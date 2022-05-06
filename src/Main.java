@@ -10,8 +10,9 @@ public class Main {
 
         // Criando Conversa entre dois usuários e testando
         Conversation user1_user2 = user1.startConversation(user2);
-        user1.sendMessage("Oi Luiz!", user1_user2);
-        user2.sendMessage("Oi Ana! Tudo bem?", user1_user2);
+        user1.sendTextMessage("Oi Luiz!", user1_user2);
+        user2.sendTextMessage("Oi Ana! Tudo bem?", user1_user2);
+        user2.sendImageMessage(user1_user2);
         user1_user2.showMessages();
         user1_user2.showMembers();
 
@@ -19,12 +20,20 @@ public class Main {
         Group timeStark = user1.createGroup(user3, "timeStark");
         user1.addMember(user4, timeStark);
 
-        user1.sendMessage("Oi pessoal!", timeStark);
-        user3.sendMessage("Que hora é a daily?", timeStark);
-        user2.sendMessage("Eu sou do Stark?", timeStark);
+        user1.sendTextMessage("Oi pessoal!", timeStark);
+        user3.sendTextMessage("Que hora é a daily?", timeStark);
+//        user2.sendTextMessage("Eu sou do Stark?", timeStark);
+        user1.sendAudioMessage(timeStark);
 
         timeStark.showMessages();
         timeStark.showMembers();
+        timeStark.showAdmins();
+        timeStark.adminCount();
+        user1.addAdmin(user3, timeStark);
+        user1.removeMember(user4, timeStark);
+        timeStark.showMembers();
+        timeStark.showAdmins();
+        timeStark.adminCount();
     }
 
 }

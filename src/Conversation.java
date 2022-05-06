@@ -11,9 +11,8 @@ public class Conversation extends Chat{
     public void showMessages(){
         System.out.println("\nMessages between " + members.get(0).name + " and " + members.get(1).name + ":\n");
         for (int i = 0; i < messages.size(); i++){
-            Message msg = messages.get(i);
-            System.out.println("From " + msg.getFromUser().name + " at " + msg.getTimestamp().toString() + ": ");
-            System.out.println(msg.getContent());
+            Message msg = this.messages.get(i);
+            System.out.println(msg.getMessage());
         }
     }
 

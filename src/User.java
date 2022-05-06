@@ -13,9 +13,32 @@ public class User {
         id = count;
     }
 
-    public boolean sendMessage(String content, Chat receiver, int type){
-        if (!receiver.isMember(this)) return false;
-        Message newMessage = new Message(content, this, receiver);
+    public boolean sendTextMessage(String content, Chat receiver){
+        if (!receiver.isMember(this)){
+            System.out.println("\nUser is not allowed to send messages.");
+            return false;
+        }
+        Text newMessage = new Text(content, this, receiver);
+        receiver.receiveMessage(newMessage);
+        return true;
+    }
+
+    public boolean sendAudioMessage(Chat receiver){
+        if (!receiver.isMember(this)){
+            System.out.println("\nUser is not allowed to send messages.");
+            return false;
+        }
+        Audio newMessage = new Audio(this, receiver);
+        receiver.receiveMessage(newMessage);
+        return true;
+    }
+
+    public boolean sendImageMessage(Chat receiver){
+        if (!receiver.isMember(this)){
+            System.out.println("\nUser is not allowed to send messages.");
+            return false;
+        }
+        Image newMessage = new Image(this, receiver);
         receiver.receiveMessage(newMessage);
         return true;
     }
@@ -37,8 +60,35 @@ public class User {
     }
 
     public boolean addMember(User member, Group group){
-        if (!group.isAdmin(this)) return false;
+        if (!group.isAdmin(this)){
+            System.out.println("User is not allowed to add new members to group.");
+            return false;
+        }
         return group.newMember(member);
+    }
+
+    public boolean removeMember(User member, Group group){
+        if (!group.isAdmin(this)){
+            System.out.println("User is not allowed to remove members from group.");
+            return false;
+        }
+        return group.removeMember(member);
+    }
+
+    public boolean addAdmin(User newAdmin, Group group){
+        if (!group.isAdmin(this)) {
+            System.out.println("User is not allowed to add new administrators to group.");
+            return false;
+        }
+        return group.newAdmin(newAdmin);
+    }
+
+    public boolean removeAdmin(User admin, Group group){
+        if (!group.isAdmin(this)){
+            System.out.println("User is not allowed to remove admins from group.");
+            return false;
+        }
+        return group.removeAdmin(admin);
     }
 
 }
