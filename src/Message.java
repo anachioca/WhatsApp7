@@ -8,8 +8,9 @@ abstract class Message {
     private Timestamp timestamp;
     private User fromUser;
     private Chat toChat;
+    protected String content;
 
-    public Message(User sender, Chat receiver){
+    public Message(String content, User sender, Chat receiver){
         count++;
         int newId = count;
         id = newId;
@@ -17,6 +18,7 @@ abstract class Message {
         timestamp = new Timestamp(datetime);
         fromUser = sender;
         toChat = receiver;
+        this.content = content;
     }
 
     public Timestamp getTimestamp() {
@@ -25,6 +27,10 @@ abstract class Message {
 
     public User getFromUser() {
         return fromUser;
+    }
+
+    public String getContent() {
+        return content;
     }
 
     abstract String getMessage();

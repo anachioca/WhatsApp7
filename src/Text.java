@@ -1,8 +1,6 @@
 public class Text extends Message{
-    protected String content;
     public Text(String content, User sender, Chat receiver){
-        super(sender, receiver);
-        this.content = content;
+        super(content, sender, receiver);
     }
     public String getMessage() {
         String message = this.getTimestamp().toString() + " - " + this.getFromUser().name + ": ";
@@ -10,4 +8,7 @@ public class Text extends Message{
         return message;
     }
 
+    public String getContent() {
+        return content;
+    }
 }

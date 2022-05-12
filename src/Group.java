@@ -22,7 +22,9 @@ public class Group extends Chat{
     }
 
     public boolean newMember(User user){
-        members.add(user);
+        if (!this.isMember(user)){
+            members.add(user);
+        }
         return true;
     }
 

@@ -3,12 +3,12 @@ public class Image extends Message{
 
 
     public Image(User sender, Chat receiver){
-        super(sender, receiver);
+        super("IMAGE", sender, receiver);
     }
 
     public String getMessage() {
         String message = this.getTimestamp().toString() + " - " + this.getFromUser().name + ": ";
-        message = message + "IMAGEM";
+        message = message + "IMAGE";
         return message;
     }
 
