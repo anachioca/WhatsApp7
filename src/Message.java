@@ -32,5 +32,9 @@ abstract class Message {
         return content;
     }
 
-    abstract String getMessage();
+    public String getMessage(){
+        String message = this.getTimestamp().toString() + " - " + this.getFromUser().name + ": ";
+        message = message + content;
+        return message;
+    }
 }
