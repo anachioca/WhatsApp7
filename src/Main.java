@@ -22,7 +22,7 @@ public class Main {
 
         user1.sendTextMessage("Oi pessoal!", timeStark);
         user3.sendTextMessage("Que hora é a daily?", timeStark);
-//        user2.sendTextMessage("Eu sou do Stark?", timeStark);
+        user2.sendTextMessage("Eu sou do Stark?", timeStark); // usuário não pode enviar mensagens
         user1.sendAudioMessage(timeStark);
 
         timeStark.showMessages();

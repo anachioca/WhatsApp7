@@ -42,10 +42,11 @@ abstract class Chat {
         return members;
     }
 
-    public void memberCount(){
+    public int memberCount(){
         System.out.println("\nThere are " + members.size() + " members in this chat.");
+        return members.size();
     }
 
-    public abstract void showMessages();
-    public abstract void showMembers();
+    public abstract String showMessages();
+    public abstract String showMembers();
 }

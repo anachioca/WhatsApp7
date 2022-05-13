@@ -10,6 +10,10 @@ public class Group extends Chat{
         this.admin.add(creator);
     }
 
+    public String getName() {
+        return name;
+    }
+
     public boolean isAdmin(User user){
         for (int i = 0; i < admin.size(); i++){
             if (user.id == admin.get(i).id) return true;
@@ -37,12 +41,14 @@ public class Group extends Chat{
         return false;
     }
 
-    public void showMembers(){
-        System.out.println("\nMembers of group \"" + name + "\":");
+    public String showMembers(){
+        String membersInGroup = "\nMembers of group \"" + name + "\":";
         members = orderMembers();
         for (int i = 0; i < members.size(); i++){
-            System.out.println(members.get(i).name);
+            membersInGroup += '\n' + members.get(i).name;
         }
+        System.out.println(membersInGroup);
+        return membersInGroup;
     }
 
     public void showAdmins(){
@@ -52,12 +58,14 @@ public class Group extends Chat{
         }
     }
 
-    public void showMessages(){
-        System.out.println("\nMessages in group \"" + name + "\":\n");
-        for (int i = 0; i < this.messages.size(); i++){
+    public String showMessages(){
+        String messagesInConv = "\nMessages in group \"" + name + "\":";
+        for (int i = 0; i < messages.size(); i++){
             Message msg = this.messages.get(i);
-            System.out.println(msg.getMessage());
+            messagesInConv += "\n" + msg.getMessage();
         }
+        System.out.println(messagesInConv);
+        return messagesInConv;
     }
 
     public void adminCount(){

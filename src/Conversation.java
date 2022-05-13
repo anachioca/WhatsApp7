@@ -8,17 +8,21 @@ public class Conversation extends Chat{
         super(members);
     }
 
-    public void showMessages(){
-        System.out.println("\nMessages between " + members.get(0).name + " and " + members.get(1).name + ":\n");
+    public String showMessages(){
+        String messagesInConv = "\nMessages between " + members.get(0).name + " and " + members.get(1).name + ":";
         for (int i = 0; i < messages.size(); i++){
             Message msg = this.messages.get(i);
-            System.out.println(msg.getMessage());
+            messagesInConv += "\n" + msg.getMessage();
         }
+        System.out.println(messagesInConv);
+        return messagesInConv;
     }
 
-    public void showMembers(){
+    public String showMembers(){
         members = orderMembers();
-        System.out.println("\nConversation between " + members.get(0).name + " and " + members.get(1).name + ".");
+        String membersInConv = "\nConversation between " + members.get(0).name + " and " + members.get(1).name + ".";
+        System.out.println(membersInConv);
+        return membersInConv;
     }
 
 }

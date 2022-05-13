@@ -16,22 +16,35 @@ public class GroupTest {
     }
 
     @Test
+    public void memberCountTest() {
+        User user1 = new User("Ana");
+        User user2 = new User("Luiz");
+        User user3 = new User("Feliz");
+        Group group = user1.createGroup(user2, "Grupinho");
+        assertEquals(2, group.memberCount());
+        user1.addMember(user3, group);
+        assertEquals(3, group.memberCount());
+    }
+
+    @Test
+    public void groupMembersTest() {
+        User user1 = new User("Ana");
+        User user2 = new User("Luiz");
+        Group group = user1.createGroup(user2, "Grupinho");
+        assertEquals("\nMembers of group \"" + group.getName() + "\":\nAna\nLuiz", group.showMembers());
+    }
+
+    @Test
     public void addMemberToGroupTest() {
         User user1 = new User("Ana");
         User user2 = new User("Luiz");
         User user3 = new User("Pará");
         User user4 = new User("Feliz");
         Group group = user1.createGroup(user2, "Grupinho");
-        boolean flag = false;
 
         // Admin tem permissão para adicionar membros:
         user1.addMember(user3, group);
-        for (int i = 0; i < group.getMembers().size(); i++){
-            if (user3 == group.getMembers().get(i)){
-                flag = true;
-            }
-        }
-        assertTrue(flag);
+        assertTrue(group.isMember(user3));
 
         // Se usuário que já é membro for adicionado novamente:
         user1.addMember(user3, group);
@@ -44,14 +57,8 @@ public class GroupTest {
         assertEquals(1, count);
 
         // Outros usuários não possuem essa permissão:
-        flag = false;
         user3.addMember(user4, group);
-        for (int i = 0; i < group.getMembers().size(); i++){
-            if (user4 == group.getMembers().get(i)){
-                flag = true;
-            }
-        }
-        assertFalse(flag);
+        assertFalse(group.isMember(user4));
     }
 
     @Test
@@ -60,37 +67,21 @@ public class GroupTest {
         User user2 = new User("Luiz");
         User user3 = new User("Pará");
         Group group = user1.createGroup(user2, "Grupinho");
-        boolean flag = false;
 
         user1.addMember(user3, group);
 
         // Admin tem permissão para remover usuário:
         user1.removeMember(user3, group);
-        for (int i = 0; i < group.getMembers().size(); i++){
-            if (user3 == group.getMembers().get(i)){
-                flag = true;
-            }
-        }
-        assertFalse(flag);
+        assertFalse(group.isMember(user3));
 
         // Se uma pessoa que não estiver no grupo for removida, nada acontece:
         user1.removeMember(user3, group);
-        for (int i = 0; i < group.getMembers().size(); i++){
-            if (user3 == group.getMembers().get(i)){
-                flag = true;
-            }
-        }
-        assertFalse(flag);
+        assertFalse(group.isMember(user3));
 
         // Outros usuários não tem permissão para remover usuário:
         user1.addMember(user3, group);
         user3.removeMember(user2, group);
-        for (int i = 0; i < group.getMembers().size(); i++){
-            if (user3 == group.getMembers().get(i)){
-                flag = true;
-            }
-        }
-        assertTrue(flag);
+        assertTrue(group.isMember(user2));
 
     }
 
@@ -102,16 +93,10 @@ public class GroupTest {
         User user4 = new User("Pará");
         Group group = user1.createGroup(user2, "Grupinho");
         user1.addMember(user3, group);
-        boolean flag = false;
 
         // Admins possuem permissão:
         user1.addAdmin(user2, group);
-        for (int i = 0; i < group.getAdmin().size(); i++){
-            if (user2 == group.getAdmin().get(i)){
-                flag = true;
-            }
-        }
-        assertTrue(flag);
+        assertTrue(group.isAdmin(user2));
 
         // Adicionando usuário que já é admin:
         user1.addAdmin(user2, group);
@@ -124,35 +109,17 @@ public class GroupTest {
         assertEquals(1, count);
 
         // Pessoas de fora do grupo não podem eleger admins
-        flag = false;
         user4.addAdmin(user3, group);
-        for (int i = 0; i < group.getAdmin().size(); i++){
-            if (user3 == group.getAdmin().get(i)){
-                flag = true;
-            }
-        }
-        assertFalse(flag);
+        assertFalse(group.isAdmin(user3));
 
         // Se o usuário não for membro do grupo, não é possível fazê-lo admin
-        flag = false;
         user1.addAdmin(user4, group);
-        for (int i = 0; i < group.getAdmin().size(); i++){
-            if (user4 == group.getAdmin().get(i)){
-                flag = true;
-            }
-        }
-        assertFalse(flag);
+        assertFalse(group.isAdmin(user4));
 
         // Outros usuários não podem adicionar admins
-        flag = false;
         user1.addMember(user4, group);
         user3.addAdmin(user4, group);
-        for (int i = 0; i < group.getAdmin().size(); i++){
-            if (user4 == group.getAdmin().get(i)){
-                flag = true;
-            }
-        }
-        assertFalse(flag);
+        assertFalse(group.isAdmin(user4));
 
     }
 
@@ -160,14 +127,19 @@ public class GroupTest {
     public void removeAdminFromGroupTest() throws InterruptedException{
         User user1 = new User("Ana");
         User user2 = new User("Luiz");
+        User user3 = new User("Feliz");
         Group group = user1.createGroup(user2, "Grupinho");
 
+        // Apenas um admin pod remover outro admin:
         user1.addAdmin(user2, group);
+        assertTrue(group.isAdmin(user2));
         user1.removeAdmin(user2, group);
-        for (int i = 0; i < group.getAdmin().size(); i++){
-            assertFalse(user2 == group.getAdmin().get(i));
-        }
+        assertFalse(group.isAdmin(user2));
 
-        assertFalse(user2.removeAdmin(user1, group));
+        // Outros usuários não possuem essa permissão:
+        user1.addMember(user3, group);
+        user1.addAdmin(user2, group);
+        user3.removeAdmin(user2, group);
+        assertTrue(group.isAdmin(user2));
     }
 }

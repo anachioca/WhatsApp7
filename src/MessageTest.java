@@ -1,10 +1,7 @@
 import org.junit.Test;
 
-import java.io.IOException;
-
 import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 
 public class MessageTest {
 
@@ -15,10 +12,13 @@ public class MessageTest {
         User user3 = new User("Pará");
         Conversation conv = user1.startConversation(user2);
 
+        // Usuário user1 pode enviar mensagens para a conversa:
         assertTrue(user1.sendTextMessage("Olá", conv));
+
+        // user3 não pode enviar mensagens para a conversa:
         assertFalse(user3.sendTextMessage("Olá, Ana!", conv));
 
-        // Message from user1 was saved succesfully in chat
+        // Messagem do user1 foi salva no chat:
         assertEquals(user1, conv.getMessages().get(0).getFromUser());
         assertEquals("Olá", conv.getMessages().get(0).getContent());
     }
@@ -33,7 +33,6 @@ public class MessageTest {
         assertTrue(user1.sendImageMessage(conv));
         assertFalse(user3.sendImageMessage(conv));
 
-        // Message from user1 was saved succesfully in chat
         assertEquals(user1, conv.getMessages().get(0).getFromUser());
         assertEquals("IMAGE", conv.getMessages().get(0).getContent());
     }
@@ -48,10 +47,7 @@ public class MessageTest {
         assertTrue(user1.sendAudioMessage(conv));
         assertFalse(user3.sendAudioMessage(conv));
 
-        // Message from user1 was saved succesfully in chat
         assertEquals(user1, conv.getMessages().get(0).getFromUser());
         assertEquals("PLAY AUDIO", conv.getMessages().get(0).getContent());
     }
-
-    // timestamp? formato de impressão?
 }
