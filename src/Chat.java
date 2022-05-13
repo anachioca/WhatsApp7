@@ -47,6 +47,6 @@ abstract class Chat {
         return members.size();
     }
 
-    public abstract String showMessages();
-    public abstract String showMembers();
+    public abstract void showMessages();
+    public abstract void showMembers();
 }

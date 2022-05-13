@@ -1,5 +1,7 @@
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -30,8 +32,33 @@ public class GroupTest {
     public void groupMembersTest() {
         User user1 = new User("Ana");
         User user2 = new User("Luiz");
+        User user3 = new User("Feliz");
+        User user4 = new User("Pará");
         Group group = user1.createGroup(user2, "Grupinho");
-        assertEquals("\nMembers of group \"" + group.getName() + "\":\nAna\nLuiz", group.showMembers());
+        user1.addMember(user3, group);
+        user1.addMember(user4, group);
+
+        ArrayList<User> members = new ArrayList<User>(4);
+        members.add(user2);
+        members.add(user1);
+        members.add(user3);
+        members.add(user4);
+        assertEquals(members, group.getMembers());
+    }
+
+    @Test
+    public void groupAdminsTest() {
+        User user1 = new User("Ana");
+        User user2 = new User("Luiz");
+        User user3 = new User("Feliz");
+        Group group = user1.createGroup(user2, "Grupinho");
+        user1.addMember(user3, group);
+        user1.addAdmin(user2, group);
+
+        ArrayList<User> admins = new ArrayList<User>(4);
+        admins.add(user1);
+        admins.add(user2);
+        assertEquals(admins, group.getAdmin());
     }
 
     @Test
@@ -71,16 +98,18 @@ public class GroupTest {
         user1.addMember(user3, group);
 
         // Admin tem permissão para remover usuário:
-        user1.removeMember(user3, group);
+        assertTrue(user1.removeMember(user3, group));
         assertFalse(group.isMember(user3));
 
         // Se uma pessoa que não estiver no grupo for removida, nada acontece:
-        user1.removeMember(user3, group);
+        assertFalse(user1.removeMember(user3, group));
         assertFalse(group.isMember(user3));
+        assertTrue(group.isMember(user1));
+        assertTrue(group.isMember(user2));
 
         // Outros usuários não tem permissão para remover usuário:
         user1.addMember(user3, group);
-        user3.removeMember(user2, group);
+        assertFalse(user3.removeMember(user2, group));
         assertTrue(group.isMember(user2));
 
     }

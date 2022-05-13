@@ -33,22 +33,20 @@ public class Group extends Chat{
     }
 
     public boolean removeMember(User user){
-        for (int i = 0; i < members.size(); i++){
-            if (user.id == members.get(i).id);
+        if (this.isMember(user)){
             members.remove(user);
             return true;
         }
         return false;
     }
 
-    public String showMembers(){
+    public void showMembers(){
         String membersInGroup = "\nMembers of group \"" + name + "\":";
         members = orderMembers();
         for (int i = 0; i < members.size(); i++){
             membersInGroup += '\n' + members.get(i).name;
         }
         System.out.println(membersInGroup);
-        return membersInGroup;
     }
 
     public void showAdmins(){
@@ -58,18 +56,18 @@ public class Group extends Chat{
         }
     }
 
-    public String showMessages(){
+    public void showMessages(){
         String messagesInConv = "\nMessages in group \"" + name + "\":";
         for (int i = 0; i < messages.size(); i++){
             Message msg = this.messages.get(i);
             messagesInConv += "\n" + msg.getMessage();
         }
         System.out.println(messagesInConv);
-        return messagesInConv;
     }
 
-    public void adminCount(){
+    public int adminCount(){
         System.out.println("\nThere are " + admin.size() + " administrator(s) in this group.");
+        return admin.size();
     }
 
     public boolean newAdmin(User newAdmin){
@@ -84,8 +82,7 @@ public class Group extends Chat{
     }
 
     public boolean removeAdmin(User user){
-        for (int i = 0; i < admin.size(); i++){
-            if (user.id == admin.get(i).id);
+        if (this.isAdmin(user)){
             admin.remove(user);
             return true;
         }
